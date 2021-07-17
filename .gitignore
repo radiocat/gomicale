@@ -1,0 +1,4 @@
+.env
+
+# PHP Composer dependencies
+/vendor/
