@@ -12,7 +12,7 @@ if (file_exists(".env")) {
 // LINE botメッセージの関連情報
 $LINE_CHANNEL_ACCESS_TOKEN = getenv('LINE_CHANNEL_ACCESS_TOKEN');
 $LINE_CHANNEL_ID = getenv('LINE_CHANNEL_ID');
-$LINE_MESSAGE_API_URL = "https://api.line.me/v2/bot/message/push";
+$LINE_MESSAGE_API_URL = "https://api.line.me/v2/bot/message/broadcast";
 
 // 実行日付情報
 $targetTimestamp = strtotime("+1 day");
