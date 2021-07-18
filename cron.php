@@ -1,11 +1,20 @@
 <?php
 
+//require
+require './vendor/autoload.php';
+
+//カレントにある.envを取得する。本番環境では.envを作らないので開発環境だけロードする。
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+if (file_exists(".env")) {
+    $dotenv->load();
+}
+
 $LINE_CHANNEL_ACCESS_TOKEN = getenv('LINE_CHANNEL_ACCESS_TOKEN');
 $LINE_CHANNEL_ID = getenv('LINE_CHANNEL_ID');
 $LINE_MESSAGE_API_URL = "https://api.line.me/v2/bot/message/push";
 
-echo "LINE_CHANNEL_ACCESS_TOKEN".$LINE_CHANNEL_ACCESS_TOKEN;
-echo "LINE_CHANNEL_ID".$LINE_CHANNEL_ID;
+echo "LINE_CHANNEL_ACCESS_TOKEN" . $LINE_CHANNEL_ACCESS_TOKEN;
+echo "LINE_CHANNEL_ID" . $LINE_CHANNEL_ID;
 
 $targetTimestamp = strtotime("+1 day");
 $targetMonthParam = date("Y-n", $targetTimestamp);  // ごみカレンダーを参照するときの対象月
@@ -13,7 +22,7 @@ $targetDate = date("d", $targetTimestamp);  // 取得するカレンダー上の
 // ごみカレンダーの対象地区はコマンドライン引数から取得する
 // 引数が指定されていない場合は実行しない
 $targetAreaId = $argv[1];
-if (empty($targetAreaId)){
+if (empty($targetAreaId)) {
     exit('第1引数に地区のIDを指定してください');
 }
 
@@ -21,7 +30,7 @@ date_default_timezone_set('Asia/Tokyo');
 require_once("./phpQuery-onefile.php");  // FIXME: スクレイピングライブラリはPHP8非対応のため別のものに変える
 
 // 対象となる地区と月を指定した西宮市のごみカレンダーのURL
-$calendarUrl = "https://www.nishi.or.jp/homepage/gomicalendar/calendar.html?date=".$targetMonthParam."&id=".$targetAreaId;
+$calendarUrl = "https://www.nishi.or.jp/homepage/gomicalendar/calendar.html?date=" . $targetMonthParam . "&id=" . $targetAreaId;
 
 // 取得するごみ情報
 $gabageArray = array();
@@ -72,7 +81,7 @@ $body = json_encode($data);
 echo $body;
 
 $header = [
-    'Authorization: Bearer ' .$LINE_CHANNEL_ACCESS_TOKEN,
+    'Authorization: Bearer ' . $LINE_CHANNEL_ACCESS_TOKEN,
     'Content-Type: application/json',
 ];
 
