@@ -9,13 +9,12 @@ if (file_exists(".env")) {
     $dotenv->load();
 }
 
+// LINE botメッセージの関連情報
 $LINE_CHANNEL_ACCESS_TOKEN = getenv('LINE_CHANNEL_ACCESS_TOKEN');
 $LINE_CHANNEL_ID = getenv('LINE_CHANNEL_ID');
 $LINE_MESSAGE_API_URL = "https://api.line.me/v2/bot/message/push";
 
-echo "LINE_CHANNEL_ACCESS_TOKEN" . $LINE_CHANNEL_ACCESS_TOKEN;
-echo "LINE_CHANNEL_ID" . $LINE_CHANNEL_ID;
-
+// 実行日付情報
 $targetTimestamp = strtotime("+1 day");
 $targetMonthParam = date("Y-n", $targetTimestamp);  // ごみカレンダーを参照するときの対象月
 $targetDate = date("d", $targetTimestamp);  // 取得するカレンダー上の日付
