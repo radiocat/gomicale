@@ -7,13 +7,24 @@ $LINE_MESSAGE_API_URL = "https://api.line.me/v2/bot/message/push";
 echo "LINE_CHANNEL_ACCESS_TOKEN".$LINE_CHANNEL_ACCESS_TOKEN;
 echo "LINE_CHANNEL_ID".$LINE_CHANNEL_ID;
 
-$gabageArray = array();
+$targetTimestamp = strtotime("+1 day");
+$targetMonthParam = date("Y-n", $targetTimestamp);  // ごみカレンダーを参照するときの対象月
+$targetDate = date("d", $targetTimestamp);  // 取得するカレンダー上の日付
+// ごみカレンダーの対象地区はコマンドライン引数から取得する
+// 引数が指定されていない場合は実行しない
+$targetAreaId = $argv[1];
+if (empty($targetAreaId)){
+    exit('第1引数に地区のIDを指定してください');
+}
 
 date_default_timezone_set('Asia/Tokyo');
-require_once("./phpQuery-onefile.php");  // NOTE: スクレイピングライブラリは別のものも試したい
+require_once("./phpQuery-onefile.php");  // FIXME: スクレイピングライブラリはPHP8非対応のため別のものに変える
 
-// FIXME: 月と地域idごとにパラメータを動的にする
-$calendarUrl = "https://www.nishi.or.jp/homepage/gomicalendar/calendar.html?date=2021-7&id=259";
+// 対象となる地区と月を指定した西宮市のごみカレンダーのURL
+$calendarUrl = "https://www.nishi.or.jp/homepage/gomicalendar/calendar.html?date=".$targetMonthParam."&id=".$targetAreaId;
+
+// 取得するごみ情報
+$gabageArray = array();
 
 $html = file_get_contents($calendarUrl);
 
@@ -21,15 +32,13 @@ $dom = phpQuery::newDocument($html);
 
 $calendarTable = $dom->find("table.calendar");
 
-$nextDate = date("d", strtotime("+1 day"));
-
 // 日付の入っている場所を探してテキストを取得する
 foreach ($calendarTable->find("p.date") as $p) {
     $date = pq($p)->text();
     // 該当日付にゴミ情報が複数ある場合もある
     // ゴミの日じゃないときは空文字が取得できるのでゴミの日ではないテキスト情報に置き換え
     // NOTE: ゴミの日じゃない場合は実行終了でもいいかもしれない
-    if ($date == $nextDate) {
+    if ($date == $targetDate) {
         $text = pq($p)->parent()->find("p.item")->text();
         if ($text === "") {
             $text = "収集がありません";
@@ -56,7 +65,7 @@ $data = array(
     "to" => $LINE_CHANNEL_ID,
     "messages" => [array(
         "type" => "text",
-        "text" => $nextDate . "日のごみは\n" . implode(",", $gabageArray) . "\n" . $calendarUrl
+        "text" => $targetDate . "日のごみは\n" . implode(",", $gabageArray) . "\n" . $calendarUrl
     )]
 );
 $body = json_encode($data);
