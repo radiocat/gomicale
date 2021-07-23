@@ -7,6 +7,7 @@ require './vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 if (file_exists(".env")) {
     $dotenv->load();
+    echo ".env loaded.", PHP_EOL;
 }
 
 // LINE botメッセージの関連情報
@@ -55,7 +56,7 @@ foreach ($calendarTable->find("p.date") as $p) {
     }
 }
 
-echo "ごみ情報: " . implode(",", $gabageArray) . "\n";
+echo "ごみ情報: ", implode(",", $gabageArray), PHP_EOL;
 
 // for debug
 //exit('デバッグ終了');
@@ -77,7 +78,7 @@ $data = array(
     )]
 );
 $body = json_encode($data);
-echo $body;
+echo $body, PHP_EOL;
 
 $header = [
     'Authorization: Bearer ' . $LINE_CHANNEL_ACCESS_TOKEN,
