@@ -1,4 +1,5 @@
 <?php
+
 namespace Gomicale;
 
 use PHPHtmlParser\Dom;
@@ -7,12 +8,12 @@ use PHPHtmlParser\Options;
 class Sample
 {
 
-    public function hello()
+    public function hello(): string
     {
         return "Hello PHPUnit!";
     }
 
-    public function exampleHttpParser()
+    public function exampleHttpParser(): string
     {
 
         $options = new Options();
@@ -23,6 +24,4 @@ class Sample
         $h1 = $dom->find('h1')[0];
         return $h1->text;
     }
-
 }
-
