@@ -7,23 +7,6 @@ use Gomicale\NishinomiyaGarbageCalendar;
 class NishinomiyaGarbageCalendarTest extends TestCase
 {
 
-    //  /**
-    //  * @var Dom
-    //  */
-    // private $dom;
-
-    // public function setUp(): void
-    // {
-    //     $dom = new Dom();
-    //     $dom->loadFromFile('tests/data/files/nishinomiya-gabage-calendar.html');
-    //     $this->dom = $dom;
-    // }
-
-    public function tearDown(): void
-    {
-        Mockery::close();
-    }
-
     /**
      * @test
      */
