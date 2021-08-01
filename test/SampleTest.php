@@ -11,4 +11,11 @@ class SampleTest extends TestCase
         $result = $sample->hello();
         $this->assertEquals("Hello PHPUnit!", $result);
     }
+
+    public function testExampleHttpParser()
+    {
+        $sample = new Sample();
+        $result = $sample->exampleHttpParser();
+        $this->assertEquals("Example Domain", $result);
+    }
 }
