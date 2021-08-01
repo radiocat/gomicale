@@ -3,6 +3,9 @@
 //require
 require './vendor/autoload.php';
 
+use Gomicale\DomLoader;
+use Gomicale\NishinomiyaGarbageCalendar;
+
 //カレントにある.envを取得する。本番環境では.envを作らないので開発環境だけロードする。
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 if (file_exists(".env")) {
@@ -27,7 +30,6 @@ if (empty($targetAreaId)) {
 }
 
 date_default_timezone_set('Asia/Tokyo');
-require_once("./phpQuery-onefile.php");  // FIXME: スクレイピングライブラリはPHP8非対応のため別のものに変える
 
 // 対象となる地区と月を指定した西宮市のごみカレンダーのURL
 $calendarUrl = "https://www.nishi.or.jp/homepage/gomicalendar/calendar.html?date=" . $targetMonthParam . "&id=" . $targetAreaId;
@@ -37,24 +39,9 @@ $gabageArray = array();
 
 $html = file_get_contents($calendarUrl);
 
-$dom = phpQuery::newDocument($html);
-
-$calendarTable = $dom->find("table.calendar");
-
-// 日付の入っている場所を探してテキストを取得する
-foreach ($calendarTable->find("p.date") as $p) {
-    $date = pq($p)->text();
-    // 該当日付にゴミ情報が複数ある場合もある
-    // ゴミの日じゃないときは空文字が取得できるのでゴミの日ではないテキスト情報に置き換え
-    // NOTE: ゴミの日じゃない場合は実行終了でもいいかもしれない
-    if ($date == $targetDate) {
-        $text = pq($p)->parent()->find("p.item")->text();
-        if ($text === "") {
-            $text = "収集がありません";
-        }
-        array_push($gabageArray, $text);
-    }
-}
+$domLoader = new DomLoader($calendarUrl);
+$nishinomiyaGabageCalenar = new NishinomiyaGarbageCalendar($domLoader->getDom());
+$gabageArray = $nishinomiyaGabageCalenar->getGarbageInfoArray($targetDate);
 
 echo "ごみ情報: ", implode(",", $gabageArray), PHP_EOL;
 
