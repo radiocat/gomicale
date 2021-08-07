@@ -14,6 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    # GitHub Actions の PHP のデフォルトが 8.0.0 になったため 7.4 を使うように指定
+    - name: Setup PHP 7.4
+      run: sudo update-alternatives --set php /usr/bin/php7.4
+
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
