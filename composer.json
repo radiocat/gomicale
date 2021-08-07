@@ -1,4 +1,20 @@
 {
+    "name": "gomicale/gomicale",
+    "description": "Nishinomiya garbage calendar checker",
+    "type": "script",
+    "keywords": [
+        "gomicale"
+    ],
+    "homepage": "https://github.com/radiocat/gomicale/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "radiocat"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/radiocat/gomicale/issues"
+    },
     "require": {
         "php": "^7.4.0",
         "vlucas/phpdotenv": "^4.2",
