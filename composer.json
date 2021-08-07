@@ -10,12 +10,15 @@
     },
     "autoload": {
         "psr-4": {
-            "Gomicale\\" : "src/"
+            "Gomicale\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Gomicale\\Test\\": "test/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit test/"
     }
 }
