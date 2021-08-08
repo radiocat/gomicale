@@ -10,11 +10,11 @@ class NishinomiyaGarbageCalendar
     /**
      * @var string　ゴミの情報自体がない場合のテキスト
      */
-    const EMPTY_GARBAGE_INFO = '情報がありません';
+    public const EMPTY_GARBAGE_INFO = '情報がありません';
     /**
      * @var string ゴミの収集がない日のテキスト
      */
-    const NO_GARBAGE_INFO = '収集がありません';
+    public const NO_GARBAGE_INFO = '収集がありません';
 
     /**
      * @var Dom
@@ -22,8 +22,8 @@ class NishinomiyaGarbageCalendar
     private $dom;
 
     /**
-     * にしのみやゴミカレンダーのDom
-     * @param $dom 
+     * にしのみやゴミカレンダー
+     * @param $dom にしのみやゴミカレンダーのDom
      */
     public function __construct(Dom $dom)
     {
@@ -32,7 +32,6 @@ class NishinomiyaGarbageCalendar
 
     /**
      * にしのみやゴミカレンダーのURLをつくる
-     * 
      * @param int $targetYear カレンダーの年
      * @param int $targetMonth カレンダーの月
      * @param int $targetAreaId 地区のid（3桁の数字）
@@ -40,7 +39,8 @@ class NishinomiyaGarbageCalendar
      */
     public static function createUrl(int $targetYear, int $targetMonth, int $targetAreaId): string
     {
-        return 'https://www.nishi.or.jp/homepage/gomicalendar/calendar.html?date=' . $targetYear . '-' . $targetMonth . '&id=' . $targetAreaId;
+        return 'https://www.nishi.or.jp/homepage/gomicalendar/calendar.html?date=' . $targetYear
+             . '-' . $targetMonth . '&id=' . $targetAreaId;
     }
 
     /**
