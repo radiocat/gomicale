@@ -5,7 +5,7 @@ namespace Gomicale;
 use PHPHtmlParser\Dom;
 use PHPHtmlParser\Options;
 
-class DomLoader 
+class DomLoader
 {
     private $dom;
 
@@ -24,5 +24,4 @@ class DomLoader
     {
         return $this->dom;
     }
-    
 }
