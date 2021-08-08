@@ -20,7 +20,9 @@ $LINE_MESSAGE_API_URL = "https://api.line.me/v2/bot/message/broadcast";
 
 // 実行日付情報
 $targetTimestamp = strtotime("+1 day");
-$targetMonthParam = date("Y-n", $targetTimestamp);  // ごみカレンダーを参照するときの対象月
+// ごみカレンダーを参照するときの対象年月
+$targetYear = date("Y", $targetTimestamp);
+$targetMonth = date("n", $targetTimestamp);
 $targetDate = date("d", $targetTimestamp);  // 取得するカレンダー上の日付
 // ごみカレンダーの対象地区はコマンドライン引数から取得する
 // 引数が指定されていない場合は実行しない
@@ -32,12 +34,9 @@ if (empty($targetAreaId)) {
 date_default_timezone_set('Asia/Tokyo');
 
 // 対象となる地区と月を指定した西宮市のごみカレンダーのURL
-$calendarUrl = "https://www.nishi.or.jp/homepage/gomicalendar/calendar.html?date=" . $targetMonthParam . "&id=" . $targetAreaId;
-
+$calendarUrl = NishinomiyaGarbageCalendar::createUrl($targetYear, $targetMonth, $targetAreaId);
 // 取得するごみ情報
 $gabageArray = array();
-
-$html = file_get_contents($calendarUrl);
 
 $domLoader = new DomLoader($calendarUrl);
 $nishinomiyaGabageCalenar = new NishinomiyaGarbageCalendar($domLoader->getDom());
