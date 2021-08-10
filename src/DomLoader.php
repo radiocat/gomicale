@@ -10,7 +10,7 @@ class DomLoader
     private $dom;
 
     /**
-     * @param $url Domのロード先URL
+     * @param string $url Domのロード先URL
      */
     public function __construct(string $url)
     {
