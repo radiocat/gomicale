@@ -8,11 +8,11 @@ class NishinomiyaGarbageCalendar
 {
 
     /**
-     * @var string　ゴミの情報自体がない場合のテキスト
+     * ゴミの情報自体がない場合のテキスト
      */
     public const EMPTY_GARBAGE_INFO = '情報がありません';
     /**
-     * @var string ゴミの収集がない日のテキスト
+     * ゴミの収集がない日のテキスト
      */
     public const NO_GARBAGE_INFO = '収集がありません';
 
@@ -23,7 +23,7 @@ class NishinomiyaGarbageCalendar
 
     /**
      * にしのみやゴミカレンダー
-     * @param $dom にしのみやゴミカレンダーのDom
+     * @param Dom $dom にしのみやゴミカレンダーのDom
      */
     public function __construct(Dom $dom)
     {
@@ -54,7 +54,7 @@ class NishinomiyaGarbageCalendar
 
     /**
      * @param int $targetDate 対象日付（1-31）
-     * @return array|null
+     * @return array その日のゴミ収集情報
      */
     public function getGarbageInfoArray(int $targetDate): array
     {
@@ -99,7 +99,7 @@ class NishinomiyaGarbageCalendar
 
     /**
      * カレンダー上のテキストの日付が対象日付かどうかを返す
-     * @return 対象日付かどうか
+     * @return bool 対象日付かどうか
      */
     public static function isTargetDate(string $textDate, int $targetDate): bool
     {
