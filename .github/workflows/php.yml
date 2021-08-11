@@ -2,39 +2,41 @@ name: PHP Composer
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    # GitHub Actions の PHP のデフォルトが 8.0.0 になったため 7.4 を使うように指定
-    - name: Setup PHP 7.4
-      run: sudo update-alternatives --set php /usr/bin/php7.4
+      # GitHub Actions の PHP のデフォルトが 8.0.0 になったため 7.4 を使うように指定
+      - name: Setup PHP 7.4
+        run: sudo update-alternatives --set php /usr/bin/php7.4
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-    
-    - name: Run lint
-      run: composer run-script lint
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
-    - name: Run test suite
-      run: composer run-script test
+      - name: Run lint
+        run: composer run-script lint
+
+      - name: Run analyze
+        run: composer run-script analyze
+
+      - name: Run test suite
+        run: composer run-script test
