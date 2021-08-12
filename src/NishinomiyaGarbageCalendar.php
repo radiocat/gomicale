@@ -54,7 +54,7 @@ class NishinomiyaGarbageCalendar
 
     /**
      * @param int $targetDate 対象日付（1-31）
-     * @return array その日のゴミ収集情報
+     * @return array<string> その日のゴミ収集情報
      */
     public function getGarbageInfoArray(int $targetDate): array
     {
