@@ -7,7 +7,10 @@ use PHPHtmlParser\Options;
 
 class DomLoader
 {
-    private $dom;
+    /**
+     * @var Dom ロードしたDomを保持する
+     */
+    private Dom $dom;
 
     /**
      * @param string $url Domのロード先URL
